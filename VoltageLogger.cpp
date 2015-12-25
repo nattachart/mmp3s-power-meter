@@ -66,6 +66,8 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
+	printf("\nPress Ctrl-C to quit.\n");
+
 	port = argv[1];
 	outFile = argv[2];
 
@@ -86,7 +88,7 @@ int main(int argc, char* argv[])
 
 	int err = mmp3s->openConnection();
 	
-	for(i=0; i<20; i++)
+	while(1)
 	{
 		volt = mmp3s->readVoltage();
 		sprintf(voltStr, "%d.%d", volt/10, volt%10);
