@@ -9,6 +9,7 @@ MMP3S *mmp3s;
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 
 	#include <windows.h>
+	#include <ctype.h>
 	inline void delay( unsigned long ms )
 	{
 		Sleep( ms );
@@ -17,8 +18,8 @@ MMP3S *mmp3s;
 	{
 		if(signal == CTRL_C_EVENT)
 		{
-			delete mmp3s;
 			fclose(of);
+			delete mmp3s;
 		}
 		return TRUE;
 	}
@@ -33,8 +34,8 @@ MMP3S *mmp3s;
 	}
 	void ctrlCHandler(int signal)
 	{
-		delete mmp3s;
 		fclose(of);
+		delete mmp3s;
 	}
 #endif 
 
@@ -94,18 +95,17 @@ int main(int argc, char* argv[])
 		sprintf(voltStr, "%d.%d", volt/10, volt%10);
 		time(&rawTime);
 		timeInfo = localtime(&rawTime);
-#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
+
 		sprintf(outString, "%02d-%02d-%04d %02d:%02d:%02d, %s\n"
-			, timeInfo->tm_mday, timeInfo->tm_mon, timeInfo->tm_year
+			, timeInfo->tm_mday, 1+timeInfo->tm_mon, 1900+timeInfo->tm_year
 			, timeInfo->tm_hour, timeInfo->tm_min, timeInfo->tm_sec, voltStr);
-#else
-		sprintf(outString, "%02d-%02d-%04d %02d:%02d:%02d, %s\r\n"
-			, timeInfo->tm_mday, timeInfo->tm_mon, 1900+timeInfo->tm_year
-			, timeInfo->tm_hour, timeInfo->tm_min, timeInfo->tm_sec, voltStr);
-#endif
+
 		//printf("%s", outString);
 		if(volt != -1)
+		{
 			fprintf(of, "%s", outString);
+			fflush(of);
+		}
 		delay(500);
 	}
 	printf("\n");
