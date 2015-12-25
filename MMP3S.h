@@ -14,8 +14,6 @@
 #define KW_ADDR 0x22
 #define PF_ADDR 0x23
 #define HZ_ADDR 0x24
-#define KWH_ADDR_HIGH_WORD 0x25
-#define KWH_ADDR_LOW_WORD 0x26
 
 class MMP3S
 {
@@ -36,6 +34,5 @@ class MMP3S
 		int16_t readCurrent(); //in Amperes
 		int16_t readPower(); //in Kilowatts
 		int16_t readPowerFactor();
-		int64_t readEnergy(); //in Kilowatt-hours
 };
 #endif
